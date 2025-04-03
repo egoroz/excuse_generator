@@ -17,8 +17,10 @@ int main(){
         std::string excuse = GenerateExcuse(storage, ExcuseType::CANT_HELP, Gender::FEMALE);
         nlohmann::json response_json;
         response_json["excuse"] = excuse;
-        return crow::response(response_json.dump());
-    });
+        crow::response response(response_json.dump());
+        response.set_header("Content-Type", "application/json; charset=utf-8"); 
+        return response;
+        });
 
     app.port(1234)
        .multithreaded()
