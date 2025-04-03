@@ -2,17 +2,46 @@
 #include <string>
 #include <iostream>
 #include "../include/database.h"
+#include "../include/logic.h"
+
+#include <fstream>
+    void WriteToDB(Storage& st, std::string&& fn){
+        std::ifstream inputFile(fn); 
+        std::string currentLine;
+        while (std::getline(inputFile, currentLine)) {
+            if (!currentLine.empty()) {
+            ExcuseComponent component;
+            component.type = fn.substr(10);
+            component.text = currentLine;
+            component.id = st.insert(component);
+        }}
+        inputFile.close(); 
+    };
+
 
 int main(){
-    Storage excudes_storage = InitStorage();
-    excudes_storage.sync_schema();
+    auto storage = InitStorage("../data/excuses.db");
+    storage.sync_schema();
 
-    ExcuseComponent component;
-    component.component_type = "reason";
-    component.text = "The dog ate my homework.";
-    excudes_storage.insert(component);
 
-    std::cout << "Database 'excuses.db' created/updated and data inserted." << std::endl;
+    // WriteToDB(storage,"../drafts/action");
+    // WriteToDB(storage,"../drafts/cause");
+    // WriteToDB(storage,"../drafts/consequence_canthelp");
+    // WriteToDB(storage,"../drafts/consequence_late");
+    // WriteToDB(storage,"../drafts/consequence_nomoney");
+    // WriteToDB(storage,"../drafts/consequence_notcoming");
+    // WriteToDB(storage,"../drafts/incident");
+    // WriteToDB(storage,"../drafts/object");
+    // WriteToDB(storage,"../drafts/opening_canthelp");
+    // WriteToDB(storage,"../drafts/opening_late");
+    // WriteToDB(storage,"../drafts/opening_nomoney");
+    // WriteToDB(storage,"../drafts/opening_notcoming");
+    // WriteToDB(storage,"../drafts/place");
+
+
+    std::string t = GenerateExcuse(storage, ExcuseType::LATE, Gender::MALE);
+    std::cout << t << std::endl;
+    
     return 0;
 }
 
