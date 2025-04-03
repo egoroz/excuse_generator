@@ -17,7 +17,28 @@ int main(){
 
         std::string origin = req.get_header_value("Origin");
         if (origin == "http://localhost:8000") {  // Access only through localhost:8000
-            std::string excuse = GenerateExcuse(storage, ExcuseType::CANT_HELP, Gender::FEMALE);
+
+            std::string gender_req = req.url_params.get("gender");
+            std::string excuse_type_req = req.url_params.get("excuse_type");
+
+
+            Gender gender = Gender::MALE;
+            if (gender_req == "FEMALE") {
+                gender = Gender::FEMALE;
+            } // else MALE
+
+
+            ExcuseType excuse_type = ExcuseType::LATE;
+            if (excuse_type_req == "CANT_HELP") {
+                excuse_type = ExcuseType::CANT_HELP;
+            } else if (excuse_type_req == "NO_MONEY") {
+                excuse_type = ExcuseType::NO_MONEY;
+            } else if (excuse_type_req == "NOT_COMING") {
+                excuse_type = ExcuseType::NOT_COMING;
+            } // else LATE
+
+
+            std::string excuse = GenerateExcuse(storage, excuse_type, gender);
             nlohmann::json response_json;
             response_json["excuse"] = excuse;
             crow::response response(response_json.dump());
@@ -28,7 +49,7 @@ int main(){
             return response;
         } else {
             return crow::response(403); // Forbidden
-        }
+            }
     });
 
     app.port(1234)
