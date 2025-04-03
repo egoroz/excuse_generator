@@ -8,10 +8,8 @@ find_package(Crow REQUIRED)
 find_package(nlohmann_json REQUIRED)
 find_package(SqliteOrm REQUIRED)
 
-include_directories("include")
-
-# aux_source_directory("src/database.cpp" DB)
-add_executable(${PROJECT_NAME} "src/main.cpp" "src/database.cpp")
+add_executable(${PROJECT_NAME} "src/main.cpp" "src/database.cpp" "src/logic.cpp")
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_link_libraries(
     ${PROJECT_NAME} PRIVATE
