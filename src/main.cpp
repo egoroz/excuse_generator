@@ -1,47 +1,29 @@
+#include <crow.h>
+#include <nlohmann/json.hpp>
 #include <sqlite_orm/sqlite_orm.h>
-#include <string>
-#include <iostream>
+
 #include "../include/database.h"
 #include "../include/logic.h"
 
-#include <fstream>
-    void WriteToDB(Storage& st, std::string&& fn){
-        std::ifstream inputFile(fn); 
-        std::string currentLine;
-        while (std::getline(inputFile, currentLine)) {
-            if (!currentLine.empty()) {
-            ExcuseComponent component;
-            component.type = fn.substr(10);
-            component.text = currentLine;
-            component.id = st.insert(component);
-        }}
-        inputFile.close(); 
-    };
-
 
 int main(){
+    crow::SimpleApp app;
+
     auto storage = InitStorage("../data/excuses.db");
     storage.sync_schema();
 
+    CROW_ROUTE(app, "/generate")
+    ([&storage]() {
+        std::string excuse = GenerateExcuse(storage, ExcuseType::CANT_HELP, Gender::FEMALE);
+        nlohmann::json response_json;
+        response_json["excuse"] = excuse;
+        return crow::response(response_json.dump());
+    });
 
-    // WriteToDB(storage,"../drafts/action");
-    // WriteToDB(storage,"../drafts/cause");
-    // WriteToDB(storage,"../drafts/consequence_canthelp");
-    // WriteToDB(storage,"../drafts/consequence_late");
-    // WriteToDB(storage,"../drafts/consequence_nomoney");
-    // WriteToDB(storage,"../drafts/consequence_notcoming");
-    // WriteToDB(storage,"../drafts/incident");
-    // WriteToDB(storage,"../drafts/object");
-    // WriteToDB(storage,"../drafts/opening_canthelp");
-    // WriteToDB(storage,"../drafts/opening_late");
-    // WriteToDB(storage,"../drafts/opening_nomoney");
-    // WriteToDB(storage,"../drafts/opening_notcoming");
-    // WriteToDB(storage,"../drafts/place");
-
-
-    std::string t = GenerateExcuse(storage, ExcuseType::LATE, Gender::MALE);
-    std::cout << t << std::endl;
-    
+    app.port(1234)
+       .multithreaded()
+       .run();
+       
     return 0;
 }
 
