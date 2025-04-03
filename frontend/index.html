@@ -8,14 +8,26 @@
 <body>
     <h1>Генератор Нелепых Оправданий</h1>
 
+    <label for="gender">Пол:</label>
+    <select id="gender">
+        <option value="MALE">Мужской</option>
+        <option value="FEMALE">Женский</option>
+    </select>
+
+    <label for="excuseType">Тип оправдания:</label>
+    <select id="excuseType">
+        <option value="LATE">Опоздание</option>
+        <option value="CANT_HELP">Не могу помочь</option>
+        <option value="NO_MONEY">Нет денег</option>
+        <option value="NOT_COMING">Не приду</option>
+    </select>
+
     <button id="generateButton">Сгенерировать оправдание</button>
 
     <div id="excuseContainer">
         <p id="excuseText"></p>
     </div>
 
-    <script src="script.js"></script> 
+    <script src="script.js"></script>
 </body>
 </html>
-
-    

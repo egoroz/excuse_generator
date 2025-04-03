@@ -1,29 +1,28 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Этот код выполнится, когда HTML документ будет полностью загружен
-
-    const generateButton = document.getElementById('generateButton'); // Находим кнопку по ID
-    const excuseText = document.getElementById('excuseText'); // Находим абзац для текста
+    const generateButton = document.getElementById('generateButton');
+    const excuseText = document.getElementById('excuseText');
+    const genderSelect = document.getElementById('gender'); 
+    const excuseTypeSelect = document.getElementById('excuseType');
 
     generateButton.addEventListener('click', function() {
-        // Этот код выполнится при нажатии на кнопку
+        const gender = genderSelect.value;
+        const excuse_type = excuseTypeSelect.value;
 
-        // Отправляем GET запрос к API
-      
-        fetch('http://localhost:1234/generate')
-        .then(response => {
-             if (!response.ok) { // Проверяем HTTP статус
+        const url = `http://localhost:1234/generate?gender=${gender}&excuse_type=${excuse_type}`;
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
-              }
-             return response.json(); // Преобразуем ответ в JSON
-         })
-        .then(data => {
-            excuseText.textContent = data.excuse; // Вставляем оправдание в абзац
-        })
-        .catch(error => {
-            console.error('Ошибка:', error); // Выводим сообщение об ошибке в консоль
-            excuseText.textContent = `Произошла ошибка при получении оправдания: ${error}`; // Добавляем детали ошибки на страницу
-        });
-
-
+                }
+                return response.json();
+            })
+            .then(data => {
+                excuseText.textContent = data.excuse;
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                excuseText.textContent = `Произошла ошибка при получении оправдания: ${error}`;
+            });
     });
 });
