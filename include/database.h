@@ -4,12 +4,18 @@
 
 struct ExcuseComponent {
     int id;
-    std::string component_type;
+    std::string type;
     std::string text;
 };
 
 namespace sq = sqlite_orm;
-using Storage = decltype(sq::make_storage(""));
+using Storage = decltype(   sq::make_storage("", 
+                                sq::make_table("",
+                                    sq::make_column("", &ExcuseComponent::id, sq::primary_key().autoincrement()),
+                                    sq::make_column("", &ExcuseComponent::type),
+                                    sq::make_column("", &ExcuseComponent::text)
+                                )
+                            )
+                        );
 
-Storage InitStorage(const std::string& path_to_db = "excudes.db");
-Storage StoreStorage(const std::string& path_to_db = "excudes.db");
+Storage InitStorage(const std::string& path_to_db = "excuses.db");
