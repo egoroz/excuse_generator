@@ -5,9 +5,7 @@
     #include <iostream>
 
 std::string ProcessGender(std::string text, Gender gender) {
-    // std::cerr << "BEFORE:" << text << '\n';
     if (gender == Gender::MALE) {
-        // std::cerr << "IN_MALE" << '\n';
         text = std::regex_replace(text, std::regex("\\(а\\)"), "");
         text = std::regex_replace(text, std::regex("\\(ся/ась\\)"), "ся");
         text = std::regex_replace(text, std::regex("\\(ел/ла\\)"), "ел");
@@ -16,9 +14,7 @@ std::string ProcessGender(std::string text, Gender gender) {
         text = std::regex_replace(text, std::regex("\\(ой/ая\\)"), "ой");
         text = std::regex_replace(text, std::regex("\\(ая\\)"), "ый");
         text = std::regex_replace(text, std::regex("\\(ый/ая\\)"), "ый");
-         // Добавить другие правила по необходимости
     } else { // FEMALE
-        // std::cerr << "IN_FEMALE" << '\n';
         text = std::regex_replace(text, std::regex("\\(а\\)"), "а");
         text = std::regex_replace(text, std::regex("\\(ся/ась\\)"), "ась");
         text = std::regex_replace(text, std::regex("\\(ел/ла\\)"), "ла");
@@ -27,10 +23,8 @@ std::string ProcessGender(std::string text, Gender gender) {
         text = std::regex_replace(text, std::regex("\\(ой/ая\\)"), "ая");
         text = std::regex_replace(text, std::regex("\\(ая\\)"), "ая");
         text = std::regex_replace(text, std::regex("\\(ый/ая\\)"), "ая");
-         // Добавить другие правила по необходимости
     }
     text = std::regex_replace(text, std::regex("\\([^\\)]*\\)"), ""); // Если пол не определился
-    // std::cerr << "AFTER:" << text << '\n';
     return text;
 }
 
@@ -101,9 +95,9 @@ std::string GenerateExcuse(
     }
     result = ProcessGender(result, gender);
 
-    result = std::regex_replace(result, std::regex(" +"), " "); // Убрать двойные пробелы
-    result = std::regex_replace(result, std::regex(" ,"), ","); // Убрать пробел перед запятой
-    result = std::regex_replace(result, std::regex(" \\."), "."); // Убрать пробел перед точкой
+    result = std::regex_replace(result, std::regex(" +"), " ");
+    result = std::regex_replace(result, std::regex(" ,"), ",");
+    result = std::regex_replace(result, std::regex(" \\."), ".");
 
     return result;
 }
