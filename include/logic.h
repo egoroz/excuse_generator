@@ -14,6 +14,7 @@ template<typename T, typename... Args>
 void SetKey(const ExcuseType&, T& first, Args&...);
 
 ExcuseType RecognizeExcuseType(const std::string&);
+Gender RecognizeGender(const std::string&);
 
 std::string ProcessGender(std::string, Gender);
 

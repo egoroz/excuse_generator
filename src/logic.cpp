@@ -69,6 +69,12 @@ void SetKey(const ExcuseType& excuse_type, T& first, Args&... remaining){
     SetKey(excuse_type, remaining...);
 }
 
+Gender RecognizeGender(const std::string& gender_text){
+    if (gender_text == "MALE") return Gender::MALE;
+    else if (gender_text == "FEMALE") return Gender::FEMALE;
+    throw std::runtime_error("Wrong gender");
+}
+
 ExcuseType RecognizeExcuseType(const std::string& excuse_type_text){
     if (excuse_type_text == "LATE"){
         return ExcuseType::LATE;
@@ -78,9 +84,8 @@ ExcuseType RecognizeExcuseType(const std::string& excuse_type_text){
         return ExcuseType::NO_MONEY;
     } else if (excuse_type_text == "NOT_COMING") {
         return ExcuseType::NOT_COMING;
-    } else{
-        throw std::runtime_error("Wrong Excuse type");
     }
+    throw std::runtime_error("Wrong Excuse type");
 }
 
 std::string GenerateExcuse(
