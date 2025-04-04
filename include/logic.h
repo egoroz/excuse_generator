@@ -13,6 +13,8 @@ void SetKey(const ExcuseType&, T&);
 template<typename T, typename... Args>
 void SetKey(const ExcuseType&, T& first, Args&...);
 
+ExcuseType RecognizeExcuseType(const std::string&);
+
 std::string ProcessGender(std::string, Gender);
 
 std::string GetRandomComponent(Storage&, const std::string&);

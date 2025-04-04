@@ -69,7 +69,19 @@ void SetKey(const ExcuseType& excuse_type, T& first, Args&... remaining){
     SetKey(excuse_type, remaining...);
 }
 
-
+ExcuseType RecognizeExcuseType(const std::string& excuse_type_text){
+    if (excuse_type_text == "LATE"){
+        return ExcuseType::LATE;
+    } else if (excuse_type_text == "CANT_HELP") {
+        return ExcuseType::CANT_HELP;
+    } else if (excuse_type_text == "NO_MONEY") {
+        return ExcuseType::NO_MONEY;
+    } else if (excuse_type_text == "NOT_COMING") {
+        return ExcuseType::NOT_COMING;
+    } else{
+        throw std::runtime_error("Wrong Excuse type");
+    }
+}
 
 std::string GenerateExcuse(
     Storage& storage,
