@@ -1,32 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <meta charset="utf-8">
-    <title>Генератор Нелепых Оправданий</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор Отмазок</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Генератор Нелепых Оправданий</h1>
 
-    <label for="gender">Пол:</label>
-    <select id="gender">
-        <option value="MALE">Мужской</option>
-        <option value="FEMALE">Женский</option>
-    </select>
+    <h1>Генератор Отмазок</h1>
 
-    <label for="excuseType">Тип оправдания:</label>
-    <select id="excuseType">
-        <option value="LATE">Опоздание</option>
-        <option value="CANT_HELP">Не могу помочь</option>
-        <option value="NO_MONEY">Нет денег</option>
-        <option value="NOT_COMING">Не приду</option>
-    </select>
-
-    <button id="generateButton">Сгенерировать оправдание</button>
-
-    <div id="excuseContainer">
-        <p id="excuseText"></p>
+    <div class="tab-nav">
+        <button class="tab-link active" data-tab="generate-tab">Случайная отмазка</button>
+        <button class="tab-link" data-tab="compose-tab">Своя отмазка</button>
     </div>
+
+    <div class="tab-content">
+
+        <div id="generate-tab" class="tab-pane active">
+             <section class="card">
+                <h2>Сгенерировать случайную отмазку</h2>
+                <form id="generate-form">
+                    <div class="form-group">
+                        <label>Пол:</label>
+                        <label><input type="radio" name="generate_gender" value="MALE" checked> Мужской</label>
+                        <label><input type="radio" name="generate_gender" value="FEMALE"> Женский</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="generate_excuse_type">Тип отмазки:</label>
+                        <select id="generate_excuse_type" name="generate_excuse_type">
+                            <option value="LATE">Опоздание</option>
+                            <option value="CANT_HELP">Не могу помочь</option>
+                            <option value="NO_MONEY">Нет денег</option>
+                            <option value="NOT_COMING">Не приду</option>
+                        </select>
+                    </div>
+
+                    <button type="submit">Сгенерировать</button>
+                </form>
+                <div class="result-area">
+                    <h3>Результат:</h3>
+                    <p id="generate-result" class="excuse-text">Нажмите "Сгенерировать"...</p>
+                </div>
+            </section>
+        </div>
+
+        <div id="compose-tab" class="tab-pane">
+             <section class="card">
+                <h2>Составить свою отмазку</h2>
+                <form id="compose-form">
+                    <div class="form-group">
+                        <label>Пол (для обработки глаголов):</label>
+                        <label><input type="radio" name="compose_gender" value="MALE" checked> Мужской</label>
+                        <label><input type="radio" name="compose_gender" value="FEMALE"> Женский</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="compose_excuse_type">Тип отмазки (влияет на начало/конец):</label>
+                        <select id="compose_excuse_type" name="compose_excuse_type">
+                            <option value="LATE">Опоздание</option>
+                            <option value="CANT_HELP">Не могу помочь</option>
+                            <option value="NO_MONEY">Нет денег</option>
+                            <option value="NOT_COMING">Не приду</option>
+                        </select>
+                    </div>
+
+                    <p><i>Оставьте поля пустыми, чтобы использовать случайные компоненты.</i></p>
+
+                    <div class="form-group">
+                        <label for="compose_opening">Начало:</label>
+                        <input type="text" id="compose_opening" name="opening" placeholder="Например: Извините,">
+                    </div>
+                    <div class="form-group">
+                        <label for="compose_action">Действие:</label>
+                        <input type="text" id="compose_action" name="action" placeholder="Например: кормил">
+                    </div>
+                    <div class="form-group">
+                        <label for="compose_object">Объект:</label>
+                        <input type="text" id="compose_object" name="object" placeholder="Например: енота">
+                    </div>
+                    <div class="form-group">
+                        <label for="compose_place">Место:</label>
+                        <input type="text" id="compose_place" name="place" placeholder="Например: в парке">
+                    </div>
+                    <div class="form-group">
+                        <label for="compose_incident">Происшествие:</label>
+                        <input type="text" id="compose_incident" name="incident" placeholder="Например: налетели гуси">
+                    </div>
+                    <div class="form-group">
+                        <label for="compose_cause">Причина происшествия:</label>
+                        <input type="text" id="compose_cause" name="cause" placeholder="Например: потому что карма">
+                    </div>
+                    <div class="form-group">
+                        <label for="compose_consequence">Последствие:</label>
+                        <input type="text" id="compose_consequence" name="consequence" placeholder="Например: поэтому опоздаю">
+                    </div>
+
+                    <button type="submit">Составить</button>
+                </form>
+                <div class="result-area">
+                    <h3>Результат:</h3>
+                    <p id="compose-result" class="excuse-text">Нажмите "Составить"...</p>
+                    <div class="components-area">
+                         <h3>Использованные компоненты:</h3>
+                         <button id="toggle-components-btn" class="toggle-btn" type="button">Скрыть компоненты</button>
+                         <pre id="compose-components">Здесь будут показаны компоненты...</pre>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div> 
+
+    <div id="error-area" class="error-message" style="display: none;"></div>
 
     <script src="script.js"></script>
 </body>
