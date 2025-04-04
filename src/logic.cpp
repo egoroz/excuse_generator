@@ -1,8 +1,6 @@
 #include "../include/logic.h"
 #include <regex>  
-
-
-    #include <iostream>
+    
 
 std::string ProcessGender(std::string text, Gender gender) {
     if (gender == Gender::MALE) {
@@ -43,33 +41,44 @@ std::string GetRandomComponent(Storage& storage, const std::string& type){
 }
 
 
-std::string GenerateExcuse(
-    Storage& storage,
-    ExcuseType excuseType,
-    Gender gender)
-{
-    std::string opening_key, consequence_key;
 
-    switch (excuseType) {
+template<typename T>
+void SetKey(const ExcuseType& excuse_type, T& object){
+    switch (excuse_type) {
         case ExcuseType::LATE:
-            opening_key = "opening_late";
-            consequence_key = "consequence_late";
+            object+="_late";
             break;
         case ExcuseType::CANT_HELP:
-            opening_key = "opening_canthelp";
-            consequence_key = "consequence_canthelp";
+            object+="_canthelp";
             break;
         case ExcuseType::NO_MONEY:
-            opening_key = "opening_nomoney";
-            consequence_key = "consequence_nomoney";
+            object+="_nomoney";
             break;
         case ExcuseType::NOT_COMING:
-            opening_key = "opening_notcoming";
-            consequence_key = "consequence_notcoming";
+            object+="_notcoming";
             break;
         default:
             throw std::runtime_error("Unknown excuse type");
     }
+}
+
+
+template<typename T, typename... Args>
+void SetKey(const ExcuseType& excuse_type, T& first, Args&... remaining){
+    SetKey(excuse_type, first);
+    SetKey(excuse_type, remaining...);
+}
+
+
+
+std::string GenerateExcuse(
+    Storage& storage,
+    ExcuseType excuse_type,
+    Gender gender)
+{
+    std::string opening_key="opening", consequence_key="consequence";
+
+    SetKey(excuse_type, opening_key, consequence_key);
 
     std::string opening = GetRandomComponent(storage, opening_key);
     std::string consequence = GetRandomComponent(storage, consequence_key);
