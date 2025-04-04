@@ -7,6 +7,11 @@ enum class Gender { MALE, FEMALE };
 
 enum class ExcuseType { LATE, CANT_HELP, NO_MONEY, NOT_COMING };
 
+template<typename T>
+void SetKey(const ExcuseType&, T&);
+
+template<typename T, typename... Args>
+void SetKey(const ExcuseType&, T& first, Args&...);
 
 std::string ProcessGender(std::string, Gender);
 
